@@ -10,5 +10,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Test Payload Info
+      - name: Show event action
         run: echo "The calling event was a ${{ github.event.action }}"
+        
+      - name: Test Payload Info
+        run: echo "${{ toJSON(github.event) }}"
