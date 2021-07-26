@@ -1,0 +1,14 @@
+name: Release
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Test Payload Info
+        run: echo "The calling event was a ${{ github.event.action }}"
