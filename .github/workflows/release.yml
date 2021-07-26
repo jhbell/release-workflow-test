@@ -27,7 +27,7 @@ jobs:
           package=${{ env.TAG_NAME }} | cut -d/ -f 1
           echo "Found desired package name $package"
           echo "::set-output name=package::$package"
-          version=${{ eng.TAG_NAME }} | cut -d/ -f 2
+          version=${{ env.TAG_NAME }} | cut -d/ -f 2
           echo "Found desired version $version"
           echo "::set-output name=version::$version"
           
