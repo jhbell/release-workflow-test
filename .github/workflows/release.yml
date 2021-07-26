@@ -23,10 +23,10 @@ jobs:
       - id: get-tag
         name: Retrieve the package name and target version
         run: |
-          package=${{ env.GITHUB_REF }} | cut -d "/" -f 1
+          package=${{ github.ref }} | cut -d "/" -f 1
           echo "Found desired package name $package"
           echo "::set-output name=package::$package"
-          version=${{ env.GITHUB_REF }} | cut -d "/" -f 2
+          version=${{ github.ref }} | cut -d "/" -f 2
           echo "Found desired version $version"
           echo "::set-output name=version::$version"
           
