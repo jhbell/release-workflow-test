@@ -15,13 +15,16 @@ jobs:
       - name: Show event action
         run: echo "The calling event was a ${{ github.event.action }}"
         
+      - name: Show prerelease
+        run: echo "IS_PRERELEASE is ${{ env.IS_PRERELEASE }}"
+        
 #       - name: Test Payload Info
 #         run: echo "${{ toJSON(github.event) }}"
       
       - name: Print if this is a prerelease
-        if: ${{ env.IS_PRERELEASE == true }}
+        if: ${{ env.IS_PRERELEASE == "true" }}
         run: echo "This is a prerelease! $IS_PRERELEASE"
 
       - name: Print if this is NOT a prerelease
-        if: ${{ env.IS_PRERELEASE == false }}
+        if: ${{ env.IS_PRERELEASE == "false" }}
         run: echo "Not a prerelease. $IS_PRERELEASE"
