@@ -24,10 +24,10 @@ jobs:
       - name: Retrieve the package name and target version
         id: get-tag
         run: |
-          package=${{ env.TAG_NAME }} | cut -d/ -f 1
+          package=$(echo ${{ env.TAG_NAME }} | cut -d/ -f 1)
           echo "Found desired package name $package"
           echo "::set-output name=package::$package"
-          version=${{ env.TAG_NAME }} | cut -d/ -f 2
+          version=$(echo ${{ env.TAG_NAME }} | cut -d/ -f 2)
           echo "Found desired version $version"
           echo "::set-output name=version::$version"
           
