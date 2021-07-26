@@ -11,20 +11,20 @@ jobs:
       IS_PRERELEASE: ${{ github.event.release.prerelease }}
     steps:
       - uses: actions/checkout@v2
-
-      - name: Show event action
-        run: echo "The calling event was a ${{ github.event.action }}"
-        
-      - name: Show prerelease
-        run: echo "IS_PRERELEASE is ${{ env.IS_PRERELEASE }}"
-        
-#       - name: Test Payload Info
-#         run: echo "${{ toJSON(github.event) }}"
       
       - name: Print if this is a prerelease
-        if: ${{ env.IS_PRERELEASE == 'true' }}
+        if: env.IS_PRERELEASE == 'true'
         run: echo "This is a prerelease! $IS_PRERELEASE"
 
       - name: Print if this is NOT a prerelease
-        if: ${{ env.IS_PRERELEASE == 'false' }}
+        if: env.IS_PRERELEASE == 'false'
         run: echo "Not a prerelease. $IS_PRERELEASE"
+
+      - id: get-tag
+        name: Print package name and version to publish
+        run: |
+          package=${{ env.GITHUB_REF }} | cut -d "/" -f 1
+          echo "::set-output name=package::$package"
+          version=${{ env.GITHUB_REF }} | cut -d "/" -f 2
+          echo "::set-output name=version::$version"
+          echo "Package name is ${{ steps.get-tag.outputs.package }} and version to publish is ${{ steps.get-tag.outputs.version }}"
