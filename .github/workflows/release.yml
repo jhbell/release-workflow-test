@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       IS_PRERELEASE: ${{ github.event.release.prerelease }}
-      TAG_NAME: ${{ github.event.release.tag_name
+      TAG_NAME: ${{ github.event.release.tag_name }}
     steps:
       - uses: actions/checkout@v2
       
@@ -21,13 +21,13 @@ jobs:
         if: env.IS_PRERELEASE == 'false'
         run: echo "Not a prerelease. $IS_PRERELEASE"
 
-      - id: get-tag
-        name: Retrieve the package name and target version
+      - name: Retrieve the package name and target version
+        id: get-tag
         run: |
-          package=${{ github.event.tag_name }} | cut -d/ -f 1
+          package=${{ env.TAG_NAME }} | cut -d/ -f 1
           echo "Found desired package name $package"
           echo "::set-output name=package::$package"
-          version=${{ github.event.tag_name }} | cut -d/ -f 2
+          version=${{ eng.TAG_NAME }} | cut -d/ -f 2
           echo "Found desired version $version"
           echo "::set-output name=version::$version"
           
