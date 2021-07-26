@@ -19,9 +19,9 @@ jobs:
 #         run: echo "${{ toJSON(github.event) }}"
       
       - name: Print if this is a prerelease
-        if: ${{ env.IS_PRERELEASE }}
+        if: ${{ env.IS_PRERELEASE == true }}
         run: echo "This is a prerelease! $IS_PRERELEASE"
 
       - name: Print if this is NOT a prerelease
-        if: ${{ !env.IS_PRERELEASE }}
+        if: ${{ env.IS_PRERELEASE == false }}
         run: echo "Not a prerelease. $IS_PRERELEASE"
