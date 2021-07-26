@@ -21,10 +21,15 @@ jobs:
         run: echo "Not a prerelease. $IS_PRERELEASE"
 
       - id: get-tag
-        name: Print package name and version to publish
+        name: Retrieve the package name and target version
         run: |
           package=${{ env.GITHUB_REF }} | cut -d "/" -f 1
+          echo "Found desired package name $package"
           echo "::set-output name=package::$package"
           version=${{ env.GITHUB_REF }} | cut -d "/" -f 2
+          echo "Found desired version $version"
           echo "::set-output name=version::$version"
+          
+      - name: Print the package and version  
+        run: |
           echo "Package name is ${{ steps.get-tag.outputs.package }} and version to publish is ${{ steps.get-tag.outputs.version }}"
