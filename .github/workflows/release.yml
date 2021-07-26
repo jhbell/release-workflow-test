@@ -15,8 +15,8 @@ jobs:
       - name: Show event action
         run: echo "The calling event was a ${{ github.event.action }}"
         
-      - name: Test Payload Info
-        run: echo "${{ toJSON(github.event) }}"
+#       - name: Test Payload Info
+#         run: echo "${{ toJSON(github.event) }}"
       
       - name: Print if this is a prerelease
         if: ${{ env.IS_PRERELEASE }}
