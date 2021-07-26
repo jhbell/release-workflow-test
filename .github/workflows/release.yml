@@ -7,6 +7,8 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    env:
+      IS_PRERELEASE: ${{ github.event.release.prerelease }}
     steps:
       - uses: actions/checkout@v2
 
@@ -15,3 +17,11 @@ jobs:
         
       - name: Test Payload Info
         run: echo "${{ toJSON(github.event) }}"
+      
+      - name: Print if this is a prerelease
+        if: $IS_PRERELEASE
+        run: echo "This is a prerelease! $IS_PRERELEASE"
+
+      - name: Print if this is NOT a prerelease
+        if: (!$IS_PRERELEASE)
+        run: echo "Not a prerelease. $IS_PRERELEASE"
