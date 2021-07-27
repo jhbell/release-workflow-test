@@ -49,6 +49,6 @@ jobs:
           echo "${{ fromJSON(steps.get-package-json.outputs.packageJson) }}"
           echo "${{ fromJSON(steps.get-package-json.outputs.packageJson).version }}"
       
-      - name: Verify package version matches release tag
+      - name: Fail if package version does not match release version
         if: steps.get-tag.outputs.version != fromJSON(steps.get-package-json.outputs.packageJson).version
         run: exit 1
