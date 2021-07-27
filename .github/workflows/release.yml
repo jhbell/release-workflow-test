@@ -23,6 +23,7 @@ jobs:
       
       - name: echo prerelease if this is a prerelease
         run: |
+          echo $IS_PRERELEASE
           if [ $IS_PRERELEASE=true ]; then tag=prerelease; else tag=latest; fi
           echo $tag
 
