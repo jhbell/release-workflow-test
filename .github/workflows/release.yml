@@ -34,3 +34,21 @@ jobs:
       - name: Print the package and version  
         run: |
           echo "Package name is ${{ steps.get-tag.outputs.package }} and version to publish is ${{ steps.get-tag.outputs.version }}"
+
+      - name: Retrieve the version in the corresponding package.json
+        id: get-package-json
+        run: |
+          packageJson=$(cat ./${{ steps.get-tag.outputs.package }}/package.json)
+          packageJson="${packageJson//'%'/'%25'}"
+          packageJson="${packageJson//$'\n'/'%0A'}"
+          packageJson="${packageJson//$'\r'/'%0D'}"
+          echo "::set-output name=packageJson::$packageJson"
+        
+      - name: Print the version from the packageJson
+        run: |
+          echo "${{ fromJSON(steps.get-package-json.outputs.packageJson) }}"
+          echo "${{ fromJSON(steps.get-package-json.outputs.packageJson).version }}"
+      
+      - name: Verify package version matches release tag
+        if: steps.get-tag.outputs.version != fromJSON(steps.get-package-json.outputs.packageJson).version
+        run: exit 1
