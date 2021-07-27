@@ -13,19 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       
-      - name: Print if this is a prerelease
-        if: env.IS_PRERELEASE == 'true'
-        run: echo "This is a prerelease! $IS_PRERELEASE"
 
-      - name: Print if this is NOT a prerelease
-        if: env.IS_PRERELEASE == 'false'
-        run: echo "Not a prerelease. $IS_PRERELEASE"
-      
-      - name: echo prerelease if this is a prerelease
-        run: |
-          echo $IS_PRERELEASE
-          if [ "$IS_PRERELEASE" = true ]; then tag=prerelease; else tag=latest; fi
-          echo $tag
 
       - name: Retrieve the package name and target version
         id: get-tag
@@ -58,3 +46,10 @@ jobs:
       - name: Fail if package version does not match release version
         if: steps.get-tag.outputs.version != fromJSON(steps.get-package-json.outputs.packageJson).version
         run: exit 1
+        
+      - name: Publish the package
+        run: |
+          cd ./${{ steps.get-tag.outputs.package }}/
+          if [ "$IS_PRERELEASE" = true ]; then tag=prerelease; else tag=latest; fi
+          echo "Publishing ${{ steps.get-tag.outputs.package }} version ${{ steps.get-tag.outputs.version }} under the $tag tag."
+          npm publish --dry-run --tag $tag 
