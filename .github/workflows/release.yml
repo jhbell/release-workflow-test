@@ -20,6 +20,11 @@ jobs:
       - name: Print if this is NOT a prerelease
         if: env.IS_PRERELEASE == 'false'
         run: echo "Not a prerelease. $IS_PRERELEASE"
+      
+      - name: echo prerelease if this is a prerelease
+        run: |
+          if [ ${{ env.IS_PRERELEASE == 'true' }} ]; then tag=prerelease; else tag=latest; fi
+          echo $tag
 
       - name: Retrieve the package name and target version
         id: get-tag
