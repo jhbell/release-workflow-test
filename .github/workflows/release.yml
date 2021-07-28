@@ -12,8 +12,6 @@ jobs:
       TAG_NAME: ${{ github.event.release.tag_name }}
     steps:
       - uses: actions/checkout@v2
-      
-
 
       - name: Retrieve the package name and target version
         id: get-tag
@@ -25,10 +23,6 @@ jobs:
           echo "Found desired version $version"
           echo "::set-output name=version::$version"
           
-      - name: Print the package and version  
-        run: |
-          echo "Package name is ${{ steps.get-tag.outputs.package }} and version to publish is ${{ steps.get-tag.outputs.version }}"
-
       - name: Retrieve the version in the corresponding package.json
         id: get-package-json
         run: |
@@ -36,12 +30,8 @@ jobs:
           packageJson="${packageJson//'%'/'%25'}"
           packageJson="${packageJson//$'\n'/'%0A'}"
           packageJson="${packageJson//$'\r'/'%0D'}"
+          echo "Found package.json for ${{ steps.get-tag.outputs.package }} with version ${{ fromJSON(env.packageJson) }}"
           echo "::set-output name=packageJson::$packageJson"
-        
-      - name: Print the version from the packageJson
-        run: |
-          echo "${{ fromJSON(steps.get-package-json.outputs.packageJson) }}"
-          echo "${{ fromJSON(steps.get-package-json.outputs.packageJson).version }}"
       
       - name: Fail if package version does not match release version
         if: steps.get-tag.outputs.version != fromJSON(steps.get-package-json.outputs.packageJson).version
