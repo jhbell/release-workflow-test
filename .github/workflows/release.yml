@@ -30,7 +30,8 @@ jobs:
           packageJson="${packageJson//'%'/'%25'}"
           packageJson="${packageJson//$'\n'/'%0A'}"
           packageJson="${packageJson//$'\r'/'%0D'}"
-          echo "Found package.json for ${{ steps.get-tag.outputs.package }} with version ${{ fromJSON(env.packageJson).version }}"
+          echo "Found package.json for ${{ steps.get-tag.outputs.package }}"
+          echo $packageJson
           echo "::set-output name=packageJson::$packageJson"
       
       - name: Fail if package version does not match release version
